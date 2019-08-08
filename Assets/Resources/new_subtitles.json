@@ -1,0 +1,29 @@
+{
+	"replics": [
+		{
+			"key": "voice_for_subtitles_1",
+			"line": "Master Leng",
+			"name": "Unknown Hero"
+		},
+		{
+			"key": "voice_for_subtitles_2",
+			"line": "If you know who i am, then you know why I'm here",
+			"name": "Unknown Heroine"
+		},
+		{
+			"key": "voice_for_subtitles_3",
+			"line": "What i seek",
+			"name": ""
+		},
+		{
+			"key": "voice_for_subtitles_4",
+			"line": "And how important it is that i succeed.",
+			"name": "Unknown Heroine"
+		},
+		{
+			"key": "voice_for_subtitles_5",
+			"line": "Can you assist in my quest?",
+			"name": "Unknown Hero"
+		}
+	]
+}
