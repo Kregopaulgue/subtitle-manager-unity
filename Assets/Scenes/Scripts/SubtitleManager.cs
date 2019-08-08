@@ -8,8 +8,6 @@ public class SubtitleManager : MonoBehaviour {
     private static SubtitleManager instance = null;
 
     public string resourceFile = "new_subtitles";
-    public Color subtitleColor = Color.black;
-    
 
     private Dictionary<string, SubtitleLine> lines = new Dictionary<string, SubtitleLine>();
     private float clipTime = 0;
@@ -77,7 +75,7 @@ public class SubtitleManager : MonoBehaviour {
         return "<color=#ff00ff>MISSING TEXT FOR '" + textKey + "'</color>";
     }
 
-    public void Show(AudioClip clip)
+    public void Show(AudioClip clip, SubtitleView subtitleView)
     {
         this.isDisplaying = true;
 
@@ -87,7 +85,7 @@ public class SubtitleManager : MonoBehaviour {
         }
 
         var script = GetText(clip.name);
-        SubtitleGuiManager.Instance.SetText(script);
+        subtitleView.SetText(script);
 
         this.clipTime = clip.length + 5f;
     }

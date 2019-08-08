@@ -51,7 +51,6 @@ public class SubtitleGuiManager : MonoBehaviour {
     public void InitializeSubtitleGuiManager()
     {
         this.textBox = FindObjectOfType<Text>();
-        this.SubtitleColor = SubtitleManager.Instance.subtitleColor;
     }
 
     public void Clear()
