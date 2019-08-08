@@ -15,7 +15,7 @@ public class PlayReplics : MonoBehaviour {
 
         SubtitleManager.Instance.InitializeSubtitleManager();
 
-        //StartCoroutine(PlayAudio());
+        StartCoroutine(PlayAudio());
     }
 
     private IEnumerator PlayAudio()

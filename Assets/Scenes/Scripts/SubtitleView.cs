@@ -5,27 +5,26 @@ using UnityEngine.UI;
 
 public class SubtitleView : MonoBehaviour {
 
-    public Text textBox;
+    private Text textBox;
     public Color color = Color.black;
 
 	// Use this for initialization
 	void Start () {
         Canvas canvasObject = FindObjectOfType<Canvas>();
 
-        GameObject subtitleTextBox = new GameObject("Subtitle text");
-        subtitleTextBox.transform.SetParent(canvasObject.transform);
+        GameObject subtitleTextBox = new GameObject("Subtitle Text");
 
         this.textBox = subtitleTextBox.AddComponent<Text>();
 
         this.textBox.color = this.color;
-        this.textBox.text = "SASI";
 
         Font ArialFont = (Font) Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
         this.textBox.font = ArialFont;
         this.textBox.material = ArialFont.material;
+        this.textBox.alignment = TextAnchor.MiddleCenter;
         this.textBox.enabled = true;
 
-        this.textBox.rectTransform.anchoredPosition = new Vector2(0.5f, 0.5f);
+        subtitleTextBox.transform.SetParent(canvasObject.transform);
     }
 
     public void Clear()
