@@ -25,6 +25,9 @@ public class SubtitleView : MonoBehaviour {
         this.textBox.enabled = true;
 
         subtitleTextBox.transform.SetParent(canvasObject.transform);
+        RectTransform subtitleTransform = subtitleTextBox.GetComponent<RectTransform>();
+
+        subtitleTransform.anchoredPosition = new Vector2(0f, -240f);
     }
 
     public void Clear()
