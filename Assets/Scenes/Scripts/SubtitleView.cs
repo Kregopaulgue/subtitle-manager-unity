@@ -6,10 +6,29 @@ using UnityEngine.UI;
 public class SubtitleView : MonoBehaviour {
 
     private Text textBox;
+
     public Color color = Color.black;
 
-	// Use this for initialization
-	void Start () {
+    public float height;
+    public float width;
+
+    public float textBoxCoordinateX;
+    public float textBoxCoordinateY;
+
+    private float canvasHeight;
+    private float canvasWidth;
+
+    // Use this for initialization
+    void Start() {
+        Canvas canvasObject = FindObjectOfType<Canvas>();
+        RectTransform canvasTransform = canvasObject.GetComponent<RectTransform>();
+
+        this.canvasHeight = canvasTransform.rect.height;
+        this.canvasWidth = canvasTransform.rect.width;
+    }
+
+    public void createSubtitleBox()
+    {
         Canvas canvasObject = FindObjectOfType<Canvas>();
 
         GameObject subtitleTextBox = new GameObject("Subtitle Text");
@@ -18,7 +37,7 @@ public class SubtitleView : MonoBehaviour {
 
         this.textBox.color = this.color;
 
-        Font ArialFont = (Font) Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+        Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
         this.textBox.font = ArialFont;
         this.textBox.material = ArialFont.material;
         this.textBox.alignment = TextAnchor.MiddleCenter;
@@ -27,7 +46,21 @@ public class SubtitleView : MonoBehaviour {
         subtitleTextBox.transform.SetParent(canvasObject.transform);
         RectTransform subtitleTransform = subtitleTextBox.GetComponent<RectTransform>();
 
-        subtitleTransform.anchoredPosition = new Vector2(0f, -240f);
+        if (this.textBoxCoordinateX == 0 && this.textBoxCoordinateY == 0)
+        {
+            subtitleTransform.anchoredPosition = new Vector2(0f, -this.canvasHeight * 0.45f);
+        } else
+        {
+            subtitleTransform.anchoredPosition = new Vector2(this.textBoxCoordinateX, this.textBoxCoordinateY);
+        }
+
+        if (this.width == 0 && this.height == 0)
+        {
+            subtitleTransform.sizeDelta = new Vector2(this.canvasWidth * 0.9f, this.canvasHeight / 9);
+        } else
+        {
+            subtitleTransform.sizeDelta = new Vector2(this.width, this.height);
+        }
     }
 
     public void Clear()

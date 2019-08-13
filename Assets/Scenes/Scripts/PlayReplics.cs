@@ -14,6 +14,7 @@ public class PlayReplics : MonoBehaviour {
         subtitleView = FindObjectOfType<SubtitleView>();
 
         SubtitleManager.Instance.InitializeSubtitleManager();
+        subtitleView.createSubtitleBox();
 
         StartCoroutine(PlayAudio());
     }
