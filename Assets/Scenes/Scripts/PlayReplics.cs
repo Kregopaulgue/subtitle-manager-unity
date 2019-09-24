@@ -11,9 +11,9 @@ public class PlayReplics : MonoBehaviour {
 
     void Start () {
         audioSource = FindObjectOfType<AudioSource>();
-        subtitleView = FindObjectOfType<SubtitleView>();
+        subtitleView = gameObject.GetComponent<SubtitleView>();
 
-        SubtitleManager.Instance.InitializeSubtitleManager();
+        SubtitleManager.Instance.InitializeSubtitleManager(this.subtitleView.resourceFile);
         subtitleView.createSubtitleBox();
 
         StartCoroutine(PlayAudio());
@@ -21,10 +21,12 @@ public class PlayReplics : MonoBehaviour {
 
     private IEnumerator PlayAudio()
     {
+        Debug.Log("Started");
         audioSource.clip = (AudioClip)Resources.Load("voice_for_subtitles_1", typeof(AudioClip));
         audioSource.Play();
         SubtitleManager.Instance.Show(audioSource.clip, this.subtitleView);
         yield return new WaitForSeconds(audioSource.clip.length);
+        Debug.Log("Played");
 
         audioSource.clip = (AudioClip)Resources.Load("voice_for_subtitles_2", typeof(AudioClip));
         audioSource.Play();

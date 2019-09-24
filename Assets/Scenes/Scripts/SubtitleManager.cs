@@ -54,7 +54,7 @@ public class SubtitleManager : MonoBehaviour {
 
     }
 
-    public void InitializeSubtitleManager()
+    public void InitializeSubtitleManager(string resourceFile)
     {
         var textAsset = Resources.Load<TextAsset>(resourceFile);
         var voiceOverText = JsonUtility.FromJson<VoiceOverText>(textAsset.text);
