@@ -75,7 +75,7 @@ public class SubtitleManager : MonoBehaviour {
         return "<color=#ff00ff>MISSING TEXT FOR '" + textKey + "'</color>";
     }
 
-    public void Show(AudioClip clip, SubtitleView subtitleView)
+    public void Show(AudioClip clip, bool isTopSubtitle, bool isBottomSubtitle)
     {
         this.isDisplaying = true;
 
@@ -85,7 +85,16 @@ public class SubtitleManager : MonoBehaviour {
         }
 
         var script = GetText(clip.name);
-        subtitleView.SetText(script);
+
+        if (isBottomSubtitle)
+        {
+            SubtitleView.Instance.BottomSubtitleText = script;
+        }
+
+        if (isTopSubtitle)
+        {
+            SubtitleView.Instance.TopSubtitleText = script;
+        }
 
         this.clipTime = clip.length + 5f;
     }
@@ -100,7 +109,8 @@ public class SubtitleManager : MonoBehaviour {
             if(this.clipTime <= 0)
             {
                 this.isDisplaying = false;
-                SubtitleGuiManager.Instance.SetText(string.Empty);
+                SubtitleView.Instance.TopSubtitleText = string.Empty;
+                SubtitleView.Instance.BottomSubtitleText = string.Empty;
             }
         }
     }

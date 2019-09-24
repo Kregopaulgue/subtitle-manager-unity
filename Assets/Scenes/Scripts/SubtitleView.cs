@@ -5,101 +5,168 @@ using UnityEngine.UI;
 
 public class SubtitleView : MonoBehaviour {
 
-    public string resourceFile;
+    private static SubtitleView instance = null;
 
-    public Color color = Color.black;
+    private Text topTextBox;
+    private Text bottomTextBox;
 
-    public float height;
-    public float width;
+    public Color topTextColor;
+    public Color bottomTextColor;
 
-    public float textBoxCoordinateX;
-    public float textBoxCoordinateY;
+    public int topTextFontSize;
+    public int bottomTextFontSize;
 
-    private float canvasHeight;
-    private float canvasWidth;
-
-    private Text textBox;
-
-    // Use this for initialization
-    void Awake() {
-        Canvas canvasObject = FindObjectOfType<Canvas>();
-        RectTransform canvasTransform = canvasObject.GetComponent<RectTransform>();
-
-        this.canvasHeight = canvasTransform.rect.height;
-        this.canvasWidth = canvasTransform.rect.width;
+    public static SubtitleView Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.Find("Game").transform.gameObject.
+                    AddComponent<SubtitleView>();
+            }
+            return instance;
+        }
     }
 
-    public void createSubtitleBox()
+    private void Awake()
+    {
+
+        if (instance == null)
+        {
+            instance = this;
+            SubtitleView.Instance.InitializeSubtitleView();
+        }
+        else if (instance == this)
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    public void InitializeSubtitleView()
     {
         Canvas canvasObject = FindObjectOfType<Canvas>();
 
-        GameObject subtitleTextBox = new GameObject("Subtitle Text");
-        subtitleTextBox.transform.SetParent(canvasObject.transform);
+        GameObject topSubtitleTextBox = new GameObject("Subtitle Text");
+        topSubtitleTextBox.transform.SetParent(canvasObject.transform);
 
-        this.setUpSubtitleText(subtitleTextBox);
-        this.setSubtitlePosition(subtitleTextBox);
-    }
+        GameObject bottomSubtitleTextBox = new GameObject("Subtitle Text");
+        bottomSubtitleTextBox.transform.SetParent(canvasObject.transform);
 
-    private void setUpSubtitleText(GameObject subtitleTextBox)
-    {
-        this.textBox = subtitleTextBox.AddComponent<Text>();
+        this.topTextBox = topSubtitleTextBox.AddComponent<Text>();
 
-        this.textBox.color = this.color;
+        this.topTextBox.color = this.topTextColor;
 
         Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        this.textBox.font = ArialFont;
-        this.textBox.material = ArialFont.material;
-        this.textBox.alignment = TextAnchor.MiddleCenter;
-        this.textBox.enabled = true;
+        this.topTextBox.font = ArialFont;
+        this.topTextBox.material = ArialFont.material;
+        this.topTextBox.alignment = TextAnchor.MiddleCenter;
+        this.topTextBox.fontSize = this.topTextFontSize;
+        this.topTextBox.enabled = true;
+
+        this.bottomTextBox = bottomSubtitleTextBox.AddComponent<Text>();
+
+        this.bottomTextBox.color = this.bottomTextColor;
+
+        this.bottomTextBox.font = ArialFont;
+        this.bottomTextBox.material = ArialFont.material;
+        this.bottomTextBox.alignment = TextAnchor.MiddleCenter;
+        this.bottomTextBox.fontSize = this.bottomTextFontSize;
+        this.bottomTextBox.enabled = true;
+
+        RectTransform canvasTransform = canvasObject.GetComponent<RectTransform>();
+
+        RectTransform topSubtitleTransform = topSubtitleTextBox.GetComponent<RectTransform>();
+        RectTransform bottomSubtitleTransform = bottomSubtitleTextBox.GetComponent<RectTransform>();
+
+        topSubtitleTransform.anchoredPosition = new Vector2(0f, canvasTransform.rect.height * 0.6f);
+        bottomSubtitleTransform.anchoredPosition = new Vector2(0f, -canvasTransform.rect.height * 0.6f);
+
+        topSubtitleTransform.sizeDelta = new Vector2(canvasTransform.rect.width * 0.9f, canvasTransform.rect.height / 9);
+        bottomSubtitleTransform.sizeDelta = new Vector2(canvasTransform.rect.width * 0.9f, canvasTransform.rect.height / 9);
     }
 
-    private void setSubtitlePosition(GameObject subtitleTextBox)
+    public string TopSubtitleText
     {
-        RectTransform subtitleTransform = subtitleTextBox.GetComponent<RectTransform>();
-
-        if (this.textBoxCoordinateX == 0 && this.textBoxCoordinateY == 0)
+        get
         {
-            subtitleTransform.anchoredPosition = new Vector2(0f, -this.canvasHeight * 0.45f);
-        }
-        else
-        {
-            subtitleTransform.anchoredPosition = new Vector2(this.textBoxCoordinateX, this.textBoxCoordinateY);
+            return this.topTextBox.text;
         }
 
-        if (this.width == 0 && this.height == 0)
+        set
         {
-            subtitleTransform.sizeDelta = new Vector2(this.canvasWidth * 0.9f, this.canvasHeight / 9);
-        }
-        else
-        {
-            subtitleTransform.sizeDelta = new Vector2(this.width, this.height);
+            this.topTextBox.text = value;
         }
     }
 
-    public void Clear()
+    public string BottomSubtitleText
     {
-        textBox.text = string.Empty;
+        get
+        {
+            return this.bottomTextBox.text;
+        }
+
+        set
+        {
+            this.bottomTextBox.text = value;
+        }
     }
 
-    public void SetText(string text)
+    public Color TopSubtitleColor
     {
-        textBox.text = text;
+        get
+        {
+            return this.topTextBox.color;
+        }
+
+        set
+        {
+            this.topTextBox.color = value;
+        }
     }
 
-    public void SetFontSize(int fontSize)
+    public Color BottomSubtitleColor
     {
-        textBox.fontSize = fontSize;
+        get
+        {
+            return this.bottomTextBox.color;
+        }
+
+        set
+        {
+            this.bottomTextBox.color = value;
+        }
+    }
+
+    public void SetTopSubtitleFontSize(int fontSize)
+    {
+        topTextBox.fontSize = fontSize;
+    }
+
+    public void SetBottomSubtitleFontSize(int fontSize)
+    {
+        topTextBox.fontSize = fontSize;
     }
 
     public void TurnSubtitles()
     {
-        if (textBox.enabled)
+        if (topTextBox.enabled)
         {
-            textBox.enabled = false;
+            topTextBox.enabled = false;
         }
         else
         {
-            textBox.enabled = true;
+            topTextBox.enabled = true;
+        }
+
+        if (bottomTextBox.enabled)
+        {
+            bottomTextBox.enabled = false;
+        }
+        else
+        {
+            bottomTextBox.enabled = true;
         }
     }
 }
